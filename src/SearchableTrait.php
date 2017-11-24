@@ -263,13 +263,12 @@ trait SearchableTrait
     {
         $queries = [];
         
-        if(!in_array(['o','a','do','da','de','um','uma'],$words)){
 
-            $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 15);
-            $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 5, '', '%');
-            $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 1, '%', '%');
+        $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 15);
+        $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 5, '', '%');
+        $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 1, '%', '%');
         
-        }
+        
         return $queries;
     }
 
@@ -293,8 +292,10 @@ trait SearchableTrait
 
         foreach ($words as $word)
         {
-            $cases[] = $this->getCaseCompare($column, $like_comparator, $relevance * $relevance_multiplier);
-            $this->search_bindings[] = $pre_word . $word . $post_word;
+            if(!in_array($word,['o','a','do','da','de','um','uma'])){
+                $cases[] = $this->getCaseCompare($column, $like_comparator, $relevance * $relevance_multiplier);
+                $this->search_bindings[] = $pre_word . $word . $post_word;
+            }
         }
 
         return implode(' + ', $cases);
