@@ -262,11 +262,14 @@ trait SearchableTrait
     protected function getSearchQueriesForColumn(Builder $query, $column, $relevance, array $words)
     {
         $queries = [];
+        
+        if(!in_array(['o','a','do','da','de','um','uma'],$words)){
 
-        $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 15);
-        $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 5, '', '%');
-        $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 1, '%', '%');
-
+            $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 15);
+            $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 5, '', '%');
+            $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 1, '%', '%');
+        
+        }
         return $queries;
     }
 
